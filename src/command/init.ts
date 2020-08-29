@@ -3,6 +3,45 @@ import { CommandParams } from '../types'
 import { getCurrentPath } from '../helper/path.js'
 import * as helper from '../helper/init.js'
 
+function builder(yargs: Argv) {
+    return yargs.option('force', {
+        description: '',
+        alias: 'f',
+        type: 'boolean',
+        default: false,
+    })
+}
+
+function defaultHandler(argv: Arguments) {
+    return new Promise<void>(async (resolve, reject) => {
+        await configHandler(argv)
+        modelsHandler(argv)
+        resolve()
+    })
+}
+
+function configHandler(argv: Arguments) {
+    return new Promise<void>(async (resolve, reject) => {
+        if (typeof(argv.force) === 'boolean') {
+            if (helper.dirOrFileExists(getCurrentPath(), 'config')) {
+                if (argv.force) {
+                    await helper.deleteConfig()
+                } else {
+                    console.log('A folder named "config" already exists.')
+                    return
+                }
+            }
+            await helper.createConfig()
+            resolve()
+        }
+        reject()
+    })
+}
+
+function modelsHandler(argv: Arguments) {
+
+}
+
 const options: CommandParams = [
     {
         command: 'init',
@@ -23,40 +62,5 @@ const options: CommandParams = [
         handler: modelsHandler,
     }
 ]
-
-function builder(yargs: Argv) {
-    return yargs.option('force', {
-        description: '',
-        alias: 'f',
-        type: 'boolean',
-        default: false,
-    })
-}
-
-function defaultHandler(argv: Arguments) {
-    return new Promise<void>(async (resolve, reject) => {
-        await configHandler(argv)
-        modelsHandler(argv)
-    })
-}
-
-function configHandler(argv: Arguments) {
-    return new Promise<void>(async (resolve, reject) => {
-        if (typeof(argv.force) === 'boolean') {
-            if (argv.force) {
-                helper.deleteConfig()
-            }
-            if (!helper.dirOrFileExists(await getCurrentPath(), 'config')) {
-                helper.createConfig()
-            }
-            resolve()
-        }
-        reject()
-    })
-}
-
-function modelsHandler(argv: Arguments) {
-
-}
 
 export default options

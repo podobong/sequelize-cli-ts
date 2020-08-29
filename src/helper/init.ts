@@ -20,7 +20,7 @@ function createConfig() {
             if (error) { reject(error) }
             fs.writeFile(
                 path.join(configPath, 'config.json'),
-                JSON.stringify(config, undefined, 4),
+                JSON.stringify(config, undefined, 4) + '\n',
                 (error) => {
                     if (error) { reject(error) }
                     resolve()
