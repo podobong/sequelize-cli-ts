@@ -9,7 +9,7 @@
         "CLI",
         "TypeScript"
     ],
-    "license": "Apache",
+    "license": "Apache License 2.0",
     "homepage": "https://github.com/podobong/sequelize-cli-ts",
     "repository": {
         "type": "git",
@@ -28,9 +28,11 @@
         "ts-node": "^9.0.0",
         "sequelize": "^6.3.4",
         "yargs": "^15.4.1",
-        "@types/yargs": "^15.0.5"
+        "@types/yargs": "^15.0.5",
+        "rimraf": "^3.0.2",
+        "@types/rimraf": "^3.0.0"
     },
     "scripts": {
-        "test": "node ./build/index.js"
+        "test": "node ./build/index.js init"
     }
 }
