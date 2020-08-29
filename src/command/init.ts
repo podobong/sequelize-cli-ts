@@ -1,5 +1,5 @@
 import { Argv, Arguments } from 'yargs'
-import { CommandParams } from '../core/my-yargs.js'
+import { CommandParams } from '../types'
 import { getCurrentPath } from '../helper/path.js'
 import * as helper from '../helper/init.js'
 
@@ -34,19 +34,25 @@ function builder(yargs: Argv) {
 }
 
 function defaultHandler(argv: Arguments) {
-    configHandler(argv)
-    modelsHandler(argv)
+    return new Promise<void>(async (resolve, reject) => {
+        await configHandler(argv)
+        modelsHandler(argv)
+    })
 }
 
 function configHandler(argv: Arguments) {
-    if (typeof(argv.force) === 'boolean') {
-        if (argv.force) {
-            helper.deleteConfig()
+    return new Promise<void>(async (resolve, reject) => {
+        if (typeof(argv.force) === 'boolean') {
+            if (argv.force) {
+                helper.deleteConfig()
+            }
+            if (!helper.dirOrFileExists(await getCurrentPath(), 'config')) {
+                helper.createConfig()
+            }
+            resolve()
         }
-        if (!helper.dirOrFileExists(getCurrentPath(), 'config')) {
-            helper.createConfig()
-        }
-    }
+        reject()
+    })
 }
 
 function modelsHandler(argv: Arguments) {

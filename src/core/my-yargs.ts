@@ -1,13 +1,5 @@
-import { Argv, Arguments } from 'yargs'
-
-interface CommandParam {
-    command: string,
-    description: string,
-    builder: (yargs: Argv) => Argv,
-    handler: (argv: Arguments) => void,
-}
-
-type CommandParams = Array<CommandParam>
+import { Argv } from 'yargs'
+import { CommandParam, CommandParams } from '../types'
 
 function addCommand(yargs: Argv, param: CommandParam) {
     return yargs.command(param.command, param.description, param.builder, param.handler)
@@ -20,4 +12,4 @@ function addCommands(yargs: Argv, params: CommandParams) {
     return yargs
 }
 
-export { CommandParams, addCommand, addCommands }
+export { addCommand, addCommands }

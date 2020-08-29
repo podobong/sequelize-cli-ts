@@ -1,6 +1,5 @@
 import assert from 'assert'
 import { exec } from 'child_process'
-import 'mocha'
 
 export default () => {
     describe('Core-myyargs', () => {
