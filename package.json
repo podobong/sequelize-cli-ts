@@ -1,0 +1,36 @@
+{
+    "name": "sequelize-cli-ts",
+    "version": "1.0.0",
+    "type": "module",
+    "author": "podobong <kim11560@snu.ac.kr>",
+    "description": "Sequelize Command Line Interface for TypeScript",
+    "keywords": [
+        "Sequelize",
+        "CLI",
+        "TypeScript"
+    ],
+    "license": "Apache",
+    "homepage": "https://github.com/podobong/sequelize-cli-ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/podobong/sequelize-cli-ts.git"
+    },
+    "bugs": "https://github.com/podobong/sequelize-cli-ts/issues",
+    "files": [
+        "./build/"
+    ],
+    "bin": {
+        "sequelize": "./build/index.js",
+        "sequelize-cli": "./build/index.js"
+    },
+    "dependencies": {
+        "typescript": "^4.0.2",
+        "ts-node": "^9.0.0",
+        "sequelize": "^6.3.4",
+        "yargs": "^15.4.1",
+        "@types/yargs": "^15.0.5"
+    },
+    "scripts": {
+        "test": "node ./build/index.js"
+    }
+}
