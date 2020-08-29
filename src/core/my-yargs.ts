@@ -20,4 +20,4 @@ function addCommands(yargs: Argv, params: CommandParams) {
     return yargs
 }
 
-export { CommandParams, addCommands }
+export { CommandParams, addCommand, addCommands }

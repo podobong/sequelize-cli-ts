@@ -6,9 +6,9 @@
         "esModuleInterop": true,
         "strict": true,
         "baseUrl": "./",
-        "outDir": "./build/"
+        "outDir": "./build/",
     },
     "include": [
-        "./src/"
+        "./src/",
     ],
 }

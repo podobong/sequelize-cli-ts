@@ -3,19 +3,21 @@ import * as path from 'path'
 import rimraf from 'rimraf'
 import { getCurrentPath } from './path.js'
 
-function deleteConfigDir() {
+function deleteConfig() {
     rimraf.sync('config')
 }
 
 function createConfig() {
-    fs.mkdirSync(path.join(getCurrentPath(), 'config'))
+    const configPath = path.join(getCurrentPath(), 'config')
+    fs.mkdirSync(configPath)
+    fs.writeFileSync(path.join(configPath, 'config.json'), '{"config": "test"}')
 }
 
-function configDirExists() {
-    if (fs.readdirSync(getCurrentPath()).includes('config')) {
+function dirOrFileExists(path: string, name: string) {
+    if (fs.readdirSync(path).includes(name)) {
         return true
     }
     return false
 }
 
-export { deleteConfigDir, createConfig, configDirExists }
+export { deleteConfig, createConfig, dirOrFileExists }

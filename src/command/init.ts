@@ -1,5 +1,6 @@
 import { Argv, Arguments } from 'yargs'
-import { CommandParams } from '../core/myYargs.js'
+import { CommandParams } from '../core/my-yargs.js'
+import { getCurrentPath } from '../helper/path.js'
 import * as helper from '../helper/init.js'
 
 const options: CommandParams = [
@@ -40,9 +41,9 @@ function defaultHandler(argv: Arguments) {
 function configHandler(argv: Arguments) {
     if (typeof(argv.force) === 'boolean') {
         if (argv.force) {
-            helper.deleteConfigDir()
+            helper.deleteConfig()
         }
-        if (!helper.configDirExists()) {
+        if (!helper.dirOrFileExists(getCurrentPath(), 'config')) {
             helper.createConfig()
         }
     }
