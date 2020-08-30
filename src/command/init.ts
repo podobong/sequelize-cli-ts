@@ -1,3 +1,4 @@
+import * as path from 'path'
 import { Argv, Arguments } from 'yargs'
 import { CommandParams } from '../types'
 import { getCurrentPath } from '../helper/path.js'
@@ -14,8 +15,12 @@ function builder(yargs: Argv) {
 
 function defaultHandler(argv: Arguments) {
     return new Promise<void>(async (resolve, reject) => {
-        await configHandler(argv)
-        modelsHandler(argv)
+        try {
+            await configHandler(argv)
+            modelsHandler(argv)
+        } catch (error) {
+            reject(error)
+        }
         resolve()
     })
 }
@@ -25,21 +30,35 @@ function configHandler(argv: Arguments) {
         if (typeof(argv.force) === 'boolean') {
             if (helper.dirOrFileExists(getCurrentPath(), 'config')) {
                 if (argv.force) {
-                    await helper.deleteConfig()
+                    await helper.deleteDir(path.join(getCurrentPath(), 'config'))
                 } else {
                     console.log('A folder named "config" already exists.')
-                    return
+                    resolve()
                 }
             }
             await helper.createConfig()
             resolve()
         }
-        reject()
+        reject('Invalid argument type')
     })
 }
 
 function modelsHandler(argv: Arguments) {
-
+    return new Promise<void>(async (resolve, reject) => {
+        if (typeof(argv.force) === 'boolean') {
+            if (helper.dirOrFileExists(getCurrentPath(), 'models')) {
+                if (argv.force) {
+                    await helper.deleteDir(path.join(getCurrentPath(), 'models'))
+                } else {
+                    console.log('A folder named "models" already exists.')
+                    resolve()
+                }
+            }
+            await helper.createModels()
+            resolve()
+        }
+        reject('Invalid argument type')
+    })
 }
 
 const options: CommandParams = [

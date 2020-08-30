@@ -6,9 +6,6 @@ export default () => {
         describe('getCurrentPath', () => {
             it('Return current path', async () => {
                 assert(getCurrentPath() === process.cwd())
-                process.chdir('./testdir')
-                assert(getCurrentPath() === process.cwd())
-                process.chdir('../')
             })
         })
     })

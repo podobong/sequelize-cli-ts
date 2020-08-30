@@ -2,11 +2,12 @@ import * as fs from 'fs'
 import * as path from 'path'
 import rimraf from 'rimraf'
 import { getCurrentPath } from './path.js'
-import config from '../template/config.js'
+import config from '../template/config/config.js'
+import modelIndex from '../template/models/index.js'
 
-function deleteConfig() {
+function deleteDir(dir: string) {
     return new Promise<void>((resolve, reject) => {
-        rimraf(path.join(getCurrentPath(), 'config'), (error) => {
+        rimraf(dir, (error) => {
             if (error) { reject(error) }
             resolve()
         })
@@ -30,6 +31,23 @@ function createConfig() {
     })
 }
 
+function createModels() {
+    return new Promise<void>((resolve, reject) => {
+        const modelsPath = path.join(getCurrentPath(), 'models')
+        fs.mkdir(modelsPath, (error) => {
+            if (error) { reject(error) }
+            fs.writeFile(
+                path.join(modelsPath, 'index.ts'),
+                modelIndex,
+                (error) => {
+                    if (error) { reject(error) }
+                    resolve()
+                }
+            )
+        })
+    })
+}
+
 function dirOrFileExists(path: string, name: string) {
     if (fs.readdirSync(path).includes(name)) {
         return true
@@ -37,4 +55,4 @@ function dirOrFileExists(path: string, name: string) {
     return false
 }
 
-export { deleteConfig, createConfig, dirOrFileExists }
+export { deleteDir, createConfig, createModels, dirOrFileExists }
